@@ -11,6 +11,8 @@
 		953FE5852C6C525000A21F9E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953FE5842C6C525000A21F9E /* ContentView.swift */; };
 		953FE5872C6C525100A21F9E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 953FE5862C6C525100A21F9E /* Assets.xcassets */; };
 		953FE58A2C6C525100A21F9E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 953FE5892C6C525100A21F9E /* Preview Assets.xcassets */; };
+		D83FC91E2C894B1300B61C20 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83FC91D2C894B1300B61C20 /* APIManager.swift */; };
+		D83FC9202C894DA700B61C20 /* PokemonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83FC91F2C894DA700B61C20 /* PokemonDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		953FE5842C6C525000A21F9E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		953FE5862C6C525100A21F9E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		953FE5892C6C525100A21F9E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D83FC91D2C894B1300B61C20 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		D83FC91F2C894DA700B61C20 /* PokemonDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +59,8 @@
 				953FE5842C6C525000A21F9E /* ContentView.swift */,
 				953FE5862C6C525100A21F9E /* Assets.xcassets */,
 				953FE5882C6C525100A21F9E /* Preview Content */,
+				D83FC91D2C894B1300B61C20 /* APIManager.swift */,
+				D83FC91F2C894DA700B61C20 /* PokemonDetailView.swift */,
 			);
 			path = PokemonTemplate;
 			sourceTree = "<group>";
@@ -137,6 +143,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D83FC91E2C894B1300B61C20 /* APIManager.swift in Sources */,
+				D83FC9202C894DA700B61C20 /* PokemonDetailView.swift in Sources */,
 				953FE5852C6C525000A21F9E /* ContentView.swift in Sources */,
 				953FE5832C6C525000A21F9E /* PokemonTemplateApp.swift in Sources */,
 			);
