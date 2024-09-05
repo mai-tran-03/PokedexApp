@@ -14,6 +14,7 @@ class APIManager: ObservableObject {
     // Observable list of Pokémon names
     @Published var pokemons: [PokemonEntry] = []
     @Published var selectedPokemonDetail: PokemonDetailResponse?
+    @Published var searchedPokemon: [PokemonEntry] = []
 
     // Fetch list of Pokémon
     func fetchPokemons() {
@@ -66,14 +67,28 @@ class APIManager: ObservableObject {
         }
         task.resume()
     }
+    
+    // Filter Pokémon by name
+    func searchPokemon(query: String) {
+        print("searchPokemon called ***************")
+        if query.isEmpty {
+            searchedPokemon = pokemons
+        } else {
+            searchedPokemon = pokemons.filter { $0.name.lowercased().contains(query.lowercased())
+            }
+            print("searched pokemon: \(searchedPokemon.map { $0.name })")
+        }
+    }
 }
+
 struct PokemonListResponse: Codable {
     let results: [PokemonEntry]
 }
 
-struct PokemonEntry: Codable {
+struct PokemonEntry: Codable, Identifiable {
     let name: String
     let url: String
+    var id: String { name }
 }
 
 struct PokemonDetailResponse: Codable {
