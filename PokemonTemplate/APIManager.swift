@@ -70,13 +70,11 @@ class APIManager: ObservableObject {
     
     // Filter Pokémon by name
     func searchPokemon(query: String) {
-        print("searchPokemon called ***************")
         if query.isEmpty {
             searchedPokemon = pokemons
         } else {
             searchedPokemon = pokemons.filter { $0.name.lowercased().contains(query.lowercased())
             }
-            print("searched pokemon: \(searchedPokemon.map { $0.name })")
         }
     }
 }
