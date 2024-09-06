@@ -19,8 +19,8 @@ struct PokemonDetailView: View {
                 HStack() {
                     Text("**Abilities:**")
                         .font(.headline)
-                    ForEach(pokemon.abilities, id: \.ability.name) { ability in
-                        Text(ability.ability.name.capitalized)
+                    ForEach(pokemon.abilities, id: \.ability.name) { detail in
+                        Text(detail.ability.name.capitalized)
                     }
                 }
             }

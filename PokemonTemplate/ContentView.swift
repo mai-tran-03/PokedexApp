@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var apiManager = APIManager()
+//    @StateObject private var apiManager = APIManager()
+    @StateObject private var viewModel = PokemonViewModel()
     @State private var searchText = ""
-    @State private var selectedPokemonDetails: PokemonDetailResponse?
+//    @State private var selectedPokemonDetails: PokemonDetailResponse?
 
     var body: some View {
         NavigationView {
@@ -22,39 +23,51 @@ struct ContentView: View {
                     .cornerRadius(10)
                     .padding(.horizontal)
                     .onChange(of: searchText) {
-                        apiManager.searchPokemon(query: searchText)
+                        viewModel.debouncedSearch(query: searchText)
                     }
                 
-                if !searchText.isEmpty {
-                    // List of searched Pokémon
-                    List(apiManager.searchedPokemon, id: \.name) { pokemon in
-                        NavigationLink(destination: PokemonDetailView(pokemon: apiManager.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: []))
-                        ) {
-                            Text(pokemon.name.capitalized)
-                        }
-                        .onTapGesture {
-                            apiManager.fetchPokemonDetails(for: pokemon.url)
-                        }
-                    }
-                } else {
+//                if !searchText.isEmpty {
+//                    // List of searched Pokémon
+//                    List(viewModel.searchedPokemon, id: \.name) { pokemon in
+//                        NavigationLink(destination: PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: []))
+//                        ) {
+//                            Text(pokemon.name.capitalized)
+//                        }
+//                        .onTapGesture {
+//                            viewModel.fetchPokemonDetails(for: pokemon.url)
+//                        }
+//                    }
+//                } else {
                     // List of Pokémon
-                    List(apiManager.pokemons, id: \.url) { pokemon in
-                        NavigationLink(destination: PokemonDetailView(pokemon: apiManager.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: []))
+                    List(viewModel.pokemons, id: \.url) { pokemon in
+                        NavigationLink(destination: PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: []))
                         ) {
                             Text(pokemon.name.capitalized)
                         }
+                        .onAppear {
+                            if pokemon == viewModel.pokemons.last {
+                                viewModel.loadMorePokemons()
+                            }
+                        }
                         .onTapGesture {
-                            apiManager.fetchPokemonDetails(for: pokemon.url)
+                            viewModel.fetchPokemonDetails(for: pokemon.url)
                         }
                     }
-                    .onAppear {
-                        apiManager.fetchPokemons()
+                    .onAppear() {
+                        if viewModel.pokemons.isEmpty {
+                            viewModel.fetchPokemons()
+                        }
                     }
                     .navigationTitle("Pokémon List")
+                
+                    if viewModel.isLoading {
+                        ProgressView()
+                            .padding()
+                    }
                 }
             }
         }
-    }
+//    }
 }
 
 #Preview {

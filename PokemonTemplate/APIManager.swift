@@ -7,23 +7,29 @@
 
 import Foundation
 
+/*
+ Handle network requests and interacting with the API
+ Fetch data from the server and decode responses
+ */
 class APIManager: ObservableObject {
     // Base URL for the Pokémon API
     private let baseURL = "https://pokeapi.co/api/v2/pokemon"
     
-    // Observable list of Pokémon names
+    // Observable list of Pokémon names and Pokemon details
     @Published var pokemons: [PokemonEntry] = []
     @Published var selectedPokemonDetail: PokemonDetailResponse?
-    @Published var searchedPokemon: [PokemonEntry] = []
-
+    
     // Fetch list of Pokémon
-    func fetchPokemons() {
-        guard let url = URL(string: "\(baseURL)?limit=20") else {
+    func fetchPokemons(offset: Int = 0, completion: @escaping ([PokemonEntry]) -> Void) {
+        print("In apiManager, fetchPokemons called")
+        let limit = 20
+        
+        guard let url = URL(string: "\(baseURL)?limit=\(limit)&offset=\(offset)") else {
             print("Invalid URL")
             return
         }
 
-        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
                 print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
                 return
@@ -33,7 +39,7 @@ class APIManager: ObservableObject {
             do {
                 let jsonData = try JSONDecoder().decode(PokemonListResponse.self, from: data)
                 DispatchQueue.main.async {
-                    self?.pokemons = jsonData.results
+                    completion(jsonData.results)
                 }
             } catch {
                 print("Failed to decode JSON: \(error.localizedDescription)")
@@ -43,13 +49,14 @@ class APIManager: ObservableObject {
     }
     
     // Fetch details of Pokémon
-    func fetchPokemonDetails(for url: String) {
+    func fetchPokemonDetails(for url: String, completion: @escaping (PokemonDetailResponse?) -> Void) {
+        print("In apiManager, fetchPokemonDetails callled")
         guard let url = URL(string: url) else {
             print("Invalid URL")
             return
         }
 
-        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
                 print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
                 return
@@ -59,23 +66,16 @@ class APIManager: ObservableObject {
             do {
                 let jsonData = try JSONDecoder().decode(PokemonDetailResponse.self, from: data)
                 DispatchQueue.main.async {
-                    self?.selectedPokemonDetail = jsonData
+                    completion(jsonData)
                 }
             } catch {
                 print("Failed to decode JSON: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
             }
         }
         task.resume()
-    }
-    
-    // Filter Pokémon by name
-    func searchPokemon(query: String) {
-        if query.isEmpty {
-            searchedPokemon = pokemons
-        } else {
-            searchedPokemon = pokemons.filter { $0.name.lowercased().contains(query.lowercased())
-            }
-        }
     }
 }
 
@@ -83,7 +83,7 @@ struct PokemonListResponse: Codable {
     let results: [PokemonEntry]
 }
 
-struct PokemonEntry: Codable, Identifiable {
+struct PokemonEntry: Codable, Identifiable, Equatable {
     let name: String
     let url: String
     var id: String { name }
@@ -100,7 +100,6 @@ struct PokemonDetailResponse: Codable {
 
         struct AbilityDetail: Codable {
             let name: String
-//            let url: String
         }
     }
 }
