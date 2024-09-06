@@ -18,14 +18,24 @@ This iOS app fetches and displays a list of Pokémon using the Pokémon API. It'
 
 The `APIManager` class is central to handling API requests. It uses `URLSession` to make network calls and parses JSON responses to extract Pokémon data. This class can be extended to include more complex API interactions, such as fetching detailed Pokémon data or pagination handling.
 
+### PokemonViewModel
+
+The `PokemonViewModel` class helps manage the state of the application's data relating to the user interface. This class can manipulate data, such as filtering (searching) or sorting.
+
 ### Models
 
 - `PokemonListResponse`: A model to decode the list of Pokémon from the API.
-- `PokemonEntry`: Represents a single Pokémon entry, including its name and URL.
+- `PokemonEntry`: Represents a single Pokémon entry, including its name, URL, and name ID.
+- `PokemonDetailResponse`: A model to decode detailed information about selected Pokémon from the API.
+  - `Ability`: Represents abilities of selected Pokémon, including its name.
 
 ### ContentView
 
 The `ContentView` displays the list of Pokémon. It observes changes in the `APIManager` to update the UI when new data is fetched.
+
+### PokemonDetailView
+
+The `PokemonDetailView` displays the details of a selected Pokémon.
 
 ## Expanding Your App
 
