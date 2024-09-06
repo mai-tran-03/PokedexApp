@@ -21,7 +21,6 @@ class APIManager: ObservableObject {
     
     // Fetch list of Pokémon
     func fetchPokemons(offset: Int = 0, completion: @escaping ([PokemonEntry]) -> Void) {
-        print("In apiManager, fetchPokemons called")
         let limit = 20
         
         guard let url = URL(string: "\(baseURL)?limit=\(limit)&offset=\(offset)") else {
@@ -50,7 +49,6 @@ class APIManager: ObservableObject {
     
     // Fetch details of Pokémon
     func fetchPokemonDetails(for url: String, completion: @escaping (PokemonDetailResponse?) -> Void) {
-        print("In apiManager, fetchPokemonDetails callled")
         guard let url = URL(string: url) else {
             print("Invalid URL")
             return

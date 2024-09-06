@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-//    @StateObject private var apiManager = APIManager()
     @StateObject private var viewModel = PokemonViewModel()
     @State private var searchText = ""
-//    @State private var selectedPokemonDetails: PokemonDetailResponse?
 
     var body: some View {
         NavigationView {
@@ -23,21 +21,22 @@ struct ContentView: View {
                     .cornerRadius(10)
                     .padding(.horizontal)
                     .onChange(of: searchText) {
-                        viewModel.debouncedSearch(query: searchText)
+                        viewModel.searchPokemon(query: searchText)
                     }
                 
-//                if !searchText.isEmpty {
-//                    // List of searched Pokémon
-//                    List(viewModel.searchedPokemon, id: \.name) { pokemon in
-//                        NavigationLink(destination: PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: []))
-//                        ) {
-//                            Text(pokemon.name.capitalized)
-//                        }
-//                        .onTapGesture {
-//                            viewModel.fetchPokemonDetails(for: pokemon.url)
-//                        }
-//                    }
-//                } else {
+                if !searchText.isEmpty {
+                    // List of searched Pokémon
+                    List(viewModel.searchedPokemon, id: \.name) { pokemon in
+                        NavigationLink(destination: PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: []))
+                        ) {
+                            Text(pokemon.name.capitalized)
+                        }
+                        .onTapGesture {
+                            viewModel.fetchPokemonDetails(for: pokemon.url)
+                        }
+                    }
+                } 
+                else {
                     // List of Pokémon
                     List(viewModel.pokemons, id: \.url) { pokemon in
                         NavigationLink(destination: PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: []))
@@ -67,7 +66,7 @@ struct ContentView: View {
                 }
             }
         }
-//    }
+    }
 }
 
 #Preview {

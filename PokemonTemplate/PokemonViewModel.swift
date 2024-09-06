@@ -19,16 +19,13 @@ class PokemonViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     
     private var apiManager = APIManager()
-//    private var currentPage = 0
-//    private var cancellables = Set<AnyCancellable>()
-    private var searchDebounceTimer: AnyCancellable? = nil
+    private var searchDebounceTimer: AnyCancellable?
     
     init() {
         fetchPokemons()
     }
     
     func fetchPokemons(offset: Int = 0) {
-        print("In viewModel, fetchPokemons called *********************")
         guard !isLoading else { return }
         isLoading = true
         
@@ -45,14 +42,12 @@ class PokemonViewModel: ObservableObject {
     }
     
     func loadMorePokemons() {
-        print("In viewModel, loadMorePokemons called **********")
         if !isLoading {
             fetchPokemons(offset: pokemons.count)
         }
     }
     
     func fetchPokemonDetails(for url: String) {
-        print("In viewModel, fetchPokemonDetails called")
         apiManager.fetchPokemonDetails(for: url) { [weak self] detail in
             DispatchQueue.main.async {
                 self?.selectedPokemonDetail = detail
@@ -61,7 +56,6 @@ class PokemonViewModel: ObservableObject {
     }
     
     func debouncedSearch(query: String) {
-        print("In viewModel, debouncedSearch called ************************")
         searchDebounceTimer?.cancel()
         
         searchDebounceTimer = Just(query)
@@ -72,13 +66,7 @@ class PokemonViewModel: ObservableObject {
     }
     
     func searchPokemon(query: String) {
-        print("In viewModel, searchPokemon called ----- \(query)")
-        if query.isEmpty {
-            fetchPokemons()
-        } else {
-            searchedPokemon = pokemons.filter { $0.name.lowercased().contains(query.lowercased())
+        searchedPokemon = pokemons.filter { $0.name.lowercased().contains(query.lowercased())
             }
-        }
-        print("Searched Pokémon count: \(pokemons.count)")
     }
 }
