@@ -92,6 +92,7 @@ struct PokemonDetailResponse: Codable {
     let height: Int
     let weight: Int
     let abilities: [Ability]
+    let sprites: Sprites
 
     struct Ability: Codable {
         let ability: AbilityDetail
@@ -100,4 +101,24 @@ struct PokemonDetailResponse: Codable {
             let name: String
         }
     }
+    
+    struct Sprites: Codable {
+        let front_default: String
+        let other: OtherSprites
+        
+        struct OtherSprites: Codable {
+            let official_artwork: OfficialArtwork
+            
+            struct OfficialArtwork: Codable {
+                let front_default: String
+            }
+        }
+    }
+    
+    static let defaultSprites = Sprites(
+        front_default: "",
+        other: Sprites.OtherSprites(
+            official_artwork: Sprites.OtherSprites.OfficialArtwork(front_default: "")
+        )
+    )
 }
