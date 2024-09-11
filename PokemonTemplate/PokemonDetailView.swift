@@ -25,7 +25,6 @@ struct PokemonDetailView: View {
                 }
             }
         }
-        .navigationTitle(pokemon.name.capitalized)
     }
 }
 

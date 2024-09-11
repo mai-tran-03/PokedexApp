@@ -12,7 +12,7 @@ struct ContentView: View {
     @State private var searchText = ""
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 // Search Bar
                 TextField("Search Pokémon", text: $searchText)
@@ -27,35 +27,34 @@ struct ContentView: View {
                 if !searchText.isEmpty {
                     // List of searched Pokémon
                     List(viewModel.searchedPokemon, id: \.name) { pokemon in
-                        NavigationLink(destination: PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: []))
-                        ) {
-                            Text(pokemon.name.capitalized)
-                        }
-                        .onTapGesture {
-                            viewModel.fetchPokemonDetails(for: pokemon.url)
-                        }
+                        NavigationLink(pokemon.name.capitalized, value: pokemon)
                     }
-                } 
-                else {
+                    .navigationDestination(for: PokemonEntry.self) { selectedPokemon in
+                        PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: []))
+                        
+                        .onAppear {
+                            viewModel.fetchPokemonDetails(for: selectedPokemon.url)
+                        }
+                        .navigationTitle(selectedPokemon.name.capitalized)
+                    }
+                } else {
                     // List of Pokémon
                     List(viewModel.pokemons, id: \.url) { pokemon in
-                        NavigationLink(destination: PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: []))
-                        ) {
-                            Text(pokemon.name.capitalized)
-                        }
+                        NavigationLink(pokemon.name.capitalized, value: pokemon)
+                        
                         .onAppear {
                             if pokemon == viewModel.pokemons.last {
                                 viewModel.loadMorePokemons()
                             }
                         }
-                        .onTapGesture {
-                            viewModel.fetchPokemonDetails(for: pokemon.url)
-                        }
                     }
-                    .onAppear() {
-                        if viewModel.pokemons.isEmpty {
-                            viewModel.fetchPokemons()
+                    .navigationDestination(for: PokemonEntry.self) { selectedPokemon in
+                        PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: []))
+                        
+                        .onAppear {
+                            viewModel.fetchPokemonDetails(for: selectedPokemon.url)
                         }
+                        .navigationTitle(selectedPokemon.name.capitalized)
                     }
                     .navigationTitle("Pokémon List")
                 

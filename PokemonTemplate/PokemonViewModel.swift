@@ -66,7 +66,8 @@ class PokemonViewModel: ObservableObject {
     }
     
     func searchPokemon(query: String) {
-        searchedPokemon = pokemons.filter { $0.name.lowercased().contains(query.lowercased())
-            }
+        searchedPokemon = pokemons.filter {
+            $0.name.lowercased().contains(query.lowercased())
+        }
     }
 }

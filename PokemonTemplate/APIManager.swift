@@ -81,7 +81,7 @@ struct PokemonListResponse: Codable {
     let results: [PokemonEntry]
 }
 
-struct PokemonEntry: Codable, Identifiable, Equatable {
+struct PokemonEntry: Codable, Identifiable, Equatable, Hashable {
     let name: String
     let url: String
     var id: String { name }
