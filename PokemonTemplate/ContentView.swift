@@ -35,7 +35,7 @@ struct ContentView: View {
                         .onAppear {
                             viewModel.fetchPokemonDetails(for: selectedPokemon.url)
                         }
-                        .navigationTitle(selectedPokemon.name.capitalized)
+//                        .navigationTitle(selectedPokemon.name.capitalized)
                     }
                 } else {
                     // List of Pokémon
@@ -54,7 +54,7 @@ struct ContentView: View {
                         .onAppear {
                             viewModel.fetchPokemonDetails(for: selectedPokemon.url)
                         }
-                        .navigationTitle(selectedPokemon.name.capitalized)
+//                        .navigationTitle(selectedPokemon.name.capitalized)
                     }
                     .navigationTitle("Pokémon List")
                 

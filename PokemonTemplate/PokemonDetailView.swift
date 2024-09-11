@@ -18,6 +18,8 @@ struct PokemonDetailView: View {
                 .multilineTextAlignment(.center)
                 .padding(.top, 20)
             
+            Spacer()
+            
             if let frontSpriteURL = URL(string: pokemon.sprites.other.official_artwork.front_default) {
                 AsyncImage(url: frontSpriteURL) { image in
                     image
@@ -32,24 +34,39 @@ struct PokemonDetailView: View {
             
             Spacer()
             
-            VStack (alignment: .leading) {
-                Text("**Height:** \(pokemon.height)")
-                Text("**Weight:** \(pokemon.weight)")
+            VStack (alignment: .leading, spacing: 10) {
+                detailRow(name: "Height", value: "\(pokemon.height)")
+                detailRow(name: "Weight", value: "\(pokemon.weight)")
                 
-                HStack {
-                    Text("**Abilities:**")
+                VStack (alignment: .leading) {
+                    Text("Abilities")
                         .font(.headline)
                     ForEach(pokemon.abilities, id: \.ability.name) { detail in
-                        Text(detail.ability.name.capitalized)
+//                        HStack { 
+                            Text(detail.ability.name.capitalized)
+//                            Spacer()
+//                            Text("Some other details")
+//                        }
                     }
                 }
             }
             .padding(.top, 20)
-//            .padding(.horizontal, 20)
+            .padding(.horizontal, 10)
             
             Spacer()
         }
     .padding()
+    }
+    
+    @ViewBuilder
+    private func detailRow(name: String, value: String) -> some View {
+        HStack {
+            Text(name)
+                .font(.headline)
+            Spacer()
+            Text(value)
+                .font(.body)
+        }
     }
 }
 

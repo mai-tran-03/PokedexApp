@@ -112,6 +112,10 @@ struct PokemonDetailResponse: Codable {
             struct OfficialArtwork: Codable {
                 let front_default: String
             }
+            
+            enum CodingKeys: String, CodingKey {
+                case official_artwork = "official-artwork"
+            }
         }
     }
     
