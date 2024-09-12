@@ -34,6 +34,16 @@ struct PokemonDetailView: View {
             
             Spacer()
             
+            HStack {
+                ForEach(pokemon.types, id: \.type.name) { detail in
+                    Text(detail.type.name.capitalized)
+                        .background(Color.red.opacity(0.2))
+                        .cornerRadius(10)
+                }
+            }
+            
+            Spacer()
+            
             VStack (alignment: .leading, spacing: 10) {
                 detailRow(name: "Height", value: "\(pokemon.height)")
                 detailRow(name: "Weight", value: "\(pokemon.weight)")
@@ -41,12 +51,13 @@ struct PokemonDetailView: View {
                 VStack (alignment: .leading) {
                     Text("Abilities")
                         .font(.headline)
-                    ForEach(pokemon.abilities, id: \.ability.name) { detail in
-//                        HStack { 
+                    HStack {
+                        ForEach(pokemon.abilities, id: \.ability.name) { detail in
                             Text(detail.ability.name.capitalized)
-//                            Spacer()
-//                            Text("Some other details")
-//                        }
+                                .padding(5)
+                                .background(Color.blue.opacity(0.2))
+                                .cornerRadius(10)
+                        }
                     }
                 }
             }
@@ -87,7 +98,11 @@ struct PokemonDetailView: View {
                         front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
                     )
                 )
-            )
+            ),
+            types: [
+                PokemonDetailResponse.Element(type: PokemonDetailResponse.Element.ElementDetail(name: "grass")),
+                PokemonDetailResponse.Element(type: PokemonDetailResponse.Element.ElementDetail(name: "poison"))
+            ]
         )
     )
 }

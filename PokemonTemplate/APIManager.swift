@@ -93,6 +93,7 @@ struct PokemonDetailResponse: Codable {
     let weight: Int
     let abilities: [Ability]
     let sprites: Sprites
+    let types: [Element]
 
     struct Ability: Codable {
         let ability: AbilityDetail
@@ -116,6 +117,14 @@ struct PokemonDetailResponse: Codable {
             enum CodingKeys: String, CodingKey {
                 case official_artwork = "official-artwork"
             }
+        }
+    }
+    
+    struct Element: Codable {
+        let type: ElementDetail
+        
+        struct ElementDetail: Codable {
+            let name: String
         }
     }
     

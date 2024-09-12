@@ -30,7 +30,7 @@ struct ContentView: View {
                         NavigationLink(pokemon.name.capitalized, value: pokemon)
                     }
                     .navigationDestination(for: PokemonEntry.self) { selectedPokemon in
-                        PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: [], sprites: PokemonDetailResponse.defaultSprites))
+                        PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: [], sprites: PokemonDetailResponse.defaultSprites, types: []))
                         
                         .onAppear {
                             viewModel.fetchPokemonDetails(for: selectedPokemon.url)
@@ -49,7 +49,7 @@ struct ContentView: View {
                         }
                     }
                     .navigationDestination(for: PokemonEntry.self) { selectedPokemon in
-                        PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: [], sprites: PokemonDetailResponse.defaultSprites))
+                        PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: [], sprites: PokemonDetailResponse.defaultSprites, types: []))
                         
                         .onAppear {
                             viewModel.fetchPokemonDetails(for: selectedPokemon.url)
