@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var viewModel = PokemonViewModel()
     @State private var searchText = ""
+//    @State private var pokemonImage = ""
     
     var searchedPokemon: [PokemonEntry] {
         if searchText.isEmpty {
@@ -21,6 +22,13 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
+//            List(viewModel.pokemons) { pokemon in
+//                NavigationLink {
+//                    PokemonDetailView(pokemon: viewModel.selectedPokemonDetail ?? PokemonDetailResponse(name: "", height: 0, weight: 0, abilities: [], sprites: PokemonDetailResponse.defaultSprites, types: []))
+//                } label: {
+//                    PokemonRow(pokemon: pokemon, pokemonImage: )
+//                    }
+//                }
             List {
                 ForEach(searchedPokemon, id: \.id) { pokemon in
                     NavigationLink(pokemon.name.capitalized, value: pokemon)

@@ -52,4 +52,12 @@ class PokemonViewModel: ObservableObject {
             }
         }
     }
+    
+    func fetchPokemonSprites(for url: String, completion: @escaping (PokemonDetailResponse.Sprites?) -> Void) {
+        apiManager.fetchPokemonDetails(for: url) { detail in
+            DispatchQueue.main.async {
+                completion(detail?.sprites)
+            }
+        }
+    }
 }

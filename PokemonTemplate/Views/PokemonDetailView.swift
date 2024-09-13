@@ -22,17 +22,9 @@ struct PokemonDetailView: View {
             
             Spacer()
             
-            if let frontSpriteURL = URL(string: pokemon.sprites.other.official_artwork.front_default) {
-                AsyncImage(url: frontSpriteURL) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 200, height: 200)
-                } placeholder: {
-                    ProgressView()
-                }
+            PokemonImageView(imageURLString: pokemon.sprites.other.official_artwork.front_default)
+                .frame(width: 200, height: 200)
                 .padding(.top, 20)
-            }
             
             Spacer()
             
