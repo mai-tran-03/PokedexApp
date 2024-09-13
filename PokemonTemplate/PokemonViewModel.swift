@@ -15,12 +15,9 @@ import Combine
 class PokemonViewModel: ObservableObject {
     @Published var pokemons: [PokemonEntry] = []
     @Published var selectedPokemonDetail: PokemonDetailResponse?
-//    @Published var searchedPokemon: [PokemonEntry] = []
-//    @Published var searchText: String = ""
     @Published var isLoading: Bool = false
     
     private var apiManager = APIManager()
-//    private var searchDebounceTimer: AnyCancellable?
     
     init() {
         fetchPokemons()
@@ -55,22 +52,4 @@ class PokemonViewModel: ObservableObject {
             }
         }
     }
-    
-//    func debouncedSearch(query: String) {
-//        searchDebounceTimer?.cancel()
-//        
-//        searchDebounceTimer = Just(query)
-//            .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
-//            .sink { [weak self] newQuery in
-//                self?.searchPokemon(query: newQuery)
-//            }
-//    }
-//    
-//    func searchPokemon(query: String) {
-//        searchText = query
-//        print("searchPokemon called ------------")
-//        searchedPokemon = pokemons.filter {
-//            $0.name.lowercased().contains(query.lowercased())
-//        }
-//    }
 }
