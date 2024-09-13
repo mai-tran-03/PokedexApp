@@ -100,6 +100,7 @@ struct PokemonDetailResponse: Codable {
 
         struct AbilityDetail: Codable {
             let name: String
+//            let url: String
         }
     }
     

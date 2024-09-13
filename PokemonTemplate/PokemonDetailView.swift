@@ -9,6 +9,8 @@ import SwiftUI
 
 struct PokemonDetailView: View {
     let pokemon: PokemonDetailResponse
+    
+    @State private var selectedAbility: PokemonDetailResponse.Ability?
 
     var body: some View {
         VStack {
@@ -43,26 +45,42 @@ struct PokemonDetailView: View {
             }
             
             Spacer()
-            
+
             VStack (alignment: .leading, spacing: 10) {
                 detailRow(name: "Height", value: "\(pokemon.height)")
                 detailRow(name: "Weight", value: "\(pokemon.weight)")
-                
-                VStack (alignment: .leading) {
-                    Text("Abilities")
-                        .font(.headline)
+                Text("Abilities")
+                    .font(.headline)
+            }
+            
+            ZStack {
+                VStack (alignment: .leading, spacing: 10) {
                     HStack {
                         ForEach(pokemon.abilities, id: \.ability.name) { detail in
-                            Text(detail.ability.name.capitalized)
-                                .padding(5)
-                                .background(Color.blue.opacity(0.2))
-                                .cornerRadius(10)
+                            Button(action: {
+                                withAnimation {
+                                    selectedAbility = detail
+                                }
+                            }) {
+                                Text(detail.ability.name.capitalized)
+                                    .padding(5)
+                                    .background(Color.blue.opacity(0.2))
+                                    .cornerRadius(10)
+                            }
                         }
+                    }
+                    
+                    if let ability = selectedAbility {
+                        AbilityHoverView(ability: ability, closeAction: {
+                            withAnimation {
+                                selectedAbility = nil
+                            }
+                        })
                     }
                 }
             }
-            .padding(.top, 20)
-            .padding(.horizontal, 10)
+//            .padding(.top, 20)
+//            .padding(.horizontal, 10)
             
             Spacer()
         }
@@ -78,6 +96,37 @@ struct PokemonDetailView: View {
             Text(value)
                 .font(.body)
         }
+    }
+}
+
+struct AbilityHoverView: View {
+    let ability: PokemonDetailResponse.Ability
+    let closeAction: () -> Void
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Text("Effects")
+                    .font(.headline)
+                Spacer()
+                Button(action: closeAction) {
+                    Image(systemName: "xmark.circle")
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundColor(.black)
+                        .padding(.bottom, 15)
+                }
+            }
+            
+            Text("Details about \(ability.ability.name) will go here.")
+            
+            
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+        .shadow(radius: 5)
+        .frame(width: 250)
     }
 }
 
