@@ -15,10 +15,6 @@ class APIManager: ObservableObject {
     // Base URL for the Pokémon API
     private let baseURL = "https://pokeapi.co/api/v2/pokemon"
     
-    // Observable list of Pokémon names and Pokemon details
-    @Published var pokemons: [PokemonEntry] = []
-    @Published var selectedPokemonDetail: PokemonDetailResponse?
-    
     // Fetch list of Pokémon
     func fetchPokemons(offset: Int = 0, completion: @escaping ([PokemonEntry]) -> Void) {
         let limit = 20
@@ -81,13 +77,14 @@ struct PokemonListResponse: Codable {
     let results: [PokemonEntry]
 }
 
-struct PokemonEntry: Codable, Identifiable, Equatable, Hashable {
+struct PokemonEntry: Codable, Identifiable, Hashable {
     let name: String
     let url: String
     var id: String { name }
+    var sprites: PokemonDetailResponse.Sprites?
 }
 
-struct PokemonDetailResponse: Codable {
+struct PokemonDetailResponse: Codable, Hashable {
     let name: String
     let height: Int
     let weight: Int
@@ -95,24 +92,24 @@ struct PokemonDetailResponse: Codable {
     let sprites: Sprites
     let types: [Element]
 
-    struct Ability: Codable {
+    struct Ability: Codable, Hashable {
         let ability: AbilityDetail
 
-        struct AbilityDetail: Codable {
+        struct AbilityDetail: Codable, Hashable {
             let name: String
 //            let url: String
         }
     }
     
-    struct Sprites: Codable {
-        let front_default: String
-        let other: OtherSprites
+    struct Sprites: Codable, Hashable {
+        let front_default: String?
+        let other: OtherSprites?
         
-        struct OtherSprites: Codable {
-            let official_artwork: OfficialArtwork
+        struct OtherSprites: Codable, Hashable {
+            let official_artwork: OfficialArtwork?
             
-            struct OfficialArtwork: Codable {
-                let front_default: String
+            struct OfficialArtwork: Codable, Hashable {
+                let front_default: String?
             }
             
             enum CodingKeys: String, CodingKey {
@@ -121,10 +118,10 @@ struct PokemonDetailResponse: Codable {
         }
     }
     
-    struct Element: Codable {
+    struct Element: Codable, Hashable {
         let type: ElementDetail
         
-        struct ElementDetail: Codable {
+        struct ElementDetail: Codable, Hashable {
             let name: String
         }
     }

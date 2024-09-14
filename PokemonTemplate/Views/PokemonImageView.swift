@@ -22,7 +22,3 @@ struct PokemonImageView: View {
         }
     }
 }
-
-//#Preview {
-//    PokemonImageView()
-//}

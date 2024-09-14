@@ -22,7 +22,7 @@ struct PokemonDetailView: View {
             
             Spacer()
             
-            PokemonImageView(imageURLString: pokemon.sprites.other.official_artwork.front_default)
+            PokemonImageView(imageURLString: pokemon.sprites.other?.official_artwork?.front_default)
                 .frame(width: 200, height: 200)
                 .padding(.top, 20)
             

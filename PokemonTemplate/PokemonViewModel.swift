@@ -15,6 +15,7 @@ import Combine
 class PokemonViewModel: ObservableObject {
     @Published var pokemons: [PokemonEntry] = []
     @Published var selectedPokemonDetail: PokemonDetailResponse?
+    @Published var pokemonSprites: [String: PokemonDetailResponse.Sprites] = [:]
     @Published var isLoading: Bool = false
     
     private var apiManager = APIManager()
@@ -56,7 +57,12 @@ class PokemonViewModel: ObservableObject {
     func fetchPokemonSprites(for url: String, completion: @escaping (PokemonDetailResponse.Sprites?) -> Void) {
         apiManager.fetchPokemonDetails(for: url) { detail in
             DispatchQueue.main.async {
-                completion(detail?.sprites)
+                if let sprites = detail?.sprites {
+                    self.pokemonSprites[url] = sprites
+                    completion(detail?.sprites)
+                } else {
+                    completion(nil)
+                }
             }
         }
     }
