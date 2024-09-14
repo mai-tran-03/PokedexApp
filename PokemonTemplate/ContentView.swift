@@ -24,17 +24,19 @@ struct ContentView: View {
             List {
                 ForEach(searchedPokemon, id: \.id) { pokemon in
                     NavigationLink(value: pokemon) {
-                        HStack {
-                            if let sprites = viewModel.pokemonSprites[pokemon.url] {
-                                PokemonRow(pokemon: pokemon, imageURL: sprites.front_default)
-                            } else {
-                                PokemonRow(pokemon: pokemon, imageURL: nil)
-                                    .onAppear {
-                                        fetchSprites(for: pokemon)
-                                    }
+                        let imageURL = viewModel.pokemonSprites[pokemon.url]?.front_default
+                        
+                        PokemonRow(pokemon: pokemon, imageURL: imageURL)
+                            .onAppear {
+                                viewModel.fetchPokemonSprites(for: pokemon.url)
                             }
                         }
+                    .onAppear {
+                        if pokemon == viewModel.pokemons.last {
+                            viewModel.loadMorePokemons()
+                        }
                     }
+                    
                 }
             }
             .navigationDestination(for: PokemonEntry.self) { selectedPokemon in
@@ -51,18 +53,6 @@ struct ContentView: View {
             }
         }
         .searchable(text: $searchText, prompt: "Search for Pokémon")
-    }
-    
-    private func fetchSprites(for pokemon: PokemonEntry) {
-        viewModel.fetchPokemonSprites(for: pokemon.url) { sprites in
-            if let sprites = sprites {
-                DispatchQueue.main.async {
-                    viewModel.pokemonSprites[pokemon.url] = sprites
-                }
-            } else {
-                print("No details found for \(pokemon.name)")
-            }
-        }
     }
 }
 

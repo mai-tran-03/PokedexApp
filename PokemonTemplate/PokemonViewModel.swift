@@ -54,14 +54,16 @@ class PokemonViewModel: ObservableObject {
         }
     }
     
-    func fetchPokemonSprites(for url: String, completion: @escaping (PokemonDetailResponse.Sprites?) -> Void) {
+    func fetchPokemonSprites(for url: String) {
+        if pokemonSprites[url] != nil { return }
+        
         apiManager.fetchPokemonDetails(for: url) { detail in
             DispatchQueue.main.async {
                 if let sprites = detail?.sprites {
+                    // Store fetched sprites in dictionary using pokemon's URL as key
                     self.pokemonSprites[url] = sprites
-                    completion(detail?.sprites)
                 } else {
-                    completion(nil)
+                    print("No details found for URL: \(url)")
                 }
             }
         }

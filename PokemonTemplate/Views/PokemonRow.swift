@@ -15,17 +15,22 @@ struct PokemonRow: View {
         HStack {
             if let imageURL = imageURL, let url = URL(string: imageURL) {
                 AsyncImage(url: url) { image in
-                    image.resizable()
+                    image
+                        .resizable()
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                     
                 } placeholder: {
-                    ProgressView()
+                    Image(systemName: "photo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
                 }
             } else {
-                Image(systemName: "questionmark").resizable()
+                Image(systemName: "questionmark")
+                    .resizable()
                     .scaledToFit()
-                    .frame(width: 50, height: 50)
+                    .frame(width: 20, height: 20)
             }
             Text(pokemon.name.capitalized)
         }
