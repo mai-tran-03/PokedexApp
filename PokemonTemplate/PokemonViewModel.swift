@@ -16,6 +16,9 @@ class PokemonViewModel: ObservableObject {
     @Published var pokemons: [PokemonEntry] = []
     @Published var selectedPokemonDetail: PokemonDetailResponse?
     @Published var pokemonSprites: [String: PokemonDetailResponse.Sprites] = [:]
+//    @Published var selectedAbilityDetail: AbilityDetailResponse?
+//    @Published var selectedAbilityEffect: String = ""
+    
     @Published var isLoading: Bool = false
     
     private var apiManager = APIManager()
@@ -68,4 +71,17 @@ class PokemonViewModel: ObservableObject {
             }
         }
     }
+    
+//    func fetchAbilityDetails(for ability: PokemonDetailResponse.Ability, language: String) {
+//        apiManager.fetchAbilityDetails(from: ability.ability.url) { [weak self] detail in
+//            DispatchQueue.main.async {
+//                if let effect = detail?.effect_entries.first(where: { $0.language.name == language })?.effect {
+//                    self?.selectedAbilityEffect = effect
+//                } else {
+//                    self?.selectedAbilityEffect  = "Effect not available in \(language)"
+//                }
+//                
+//            }
+//        }
+//    }
 }

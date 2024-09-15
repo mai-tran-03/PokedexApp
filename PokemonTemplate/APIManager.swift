@@ -71,6 +71,35 @@ class APIManager: ObservableObject {
         }
         task.resume()
     }
+    
+    // Fetch ability details of Pokemon
+    func fetchAbilityDetails(from url: String, completion: @escaping (AbilityDetailResponse?) -> Void) {
+        guard let url = URL(string: url) else {
+            print("Invalid URL")
+            return
+        }
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+
+            // Parsing the JSON data
+            do {
+                let jsonData = try JSONDecoder().decode(AbilityDetailResponse.self, from: data)
+                DispatchQueue.main.async {
+                    completion(jsonData)
+                }
+            } catch {
+                print("Failed to decode JSON: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }
+        }
+        task.resume()
+    }
 }
 
 struct PokemonListResponse: Codable {
@@ -97,7 +126,7 @@ struct PokemonDetailResponse: Codable, Hashable {
 
         struct AbilityDetail: Codable, Hashable {
             let name: String
-//            let url: String
+            let url: String
         }
     }
     
@@ -132,4 +161,18 @@ struct PokemonDetailResponse: Codable, Hashable {
             official_artwork: Sprites.OtherSprites.OfficialArtwork(front_default: "")
         )
     )
+}
+
+struct AbilityDetailResponse: Codable, Hashable {
+    let name: String
+    let effect_entries: [Effect]
+    
+    struct Effect: Codable, Hashable {
+        let effect: String
+        let language: NamedAPIResource
+    }
+    
+    struct NamedAPIResource: Codable, Hashable {
+        let name: String
+    }
 }

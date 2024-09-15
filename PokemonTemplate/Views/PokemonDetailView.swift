@@ -99,17 +99,14 @@ struct AbilityHoverView: View {
                 Text("Effects")
                     .font(.headline)
                 Spacer()
-                Button(action: closeAction) {
-                    Image(systemName: "xmark.circle")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(.black)
-                        .padding(.bottom, 15)
+                    Button(action: closeAction) {
+                       Image(systemName: "xmark.circle")
+                           .font(.system(size: 20, weight: .bold))
+                           .foregroundColor(.black)
+                           .padding(.bottom, 15)
                 }
             }
-            
-            Text("Details about \(ability.ability.name) will go here.")
-            
-            
+            Text("Details about \(ability.ability.name) effects.")
         }
         .padding()
         .background(Color.white)
@@ -126,8 +123,8 @@ struct AbilityHoverView: View {
             height: 7,
             weight: 69,
             abilities: [
-                PokemonDetailResponse.Ability(ability: PokemonDetailResponse.Ability.AbilityDetail(name: "overgrow")),
-                PokemonDetailResponse.Ability(ability: PokemonDetailResponse.Ability.AbilityDetail(name: "chlorophyll"))
+                PokemonDetailResponse.Ability(ability: PokemonDetailResponse.Ability.AbilityDetail(name: "overgrow", url: "https://pokeapi.co/api/v2/ability/65/")),
+                PokemonDetailResponse.Ability(ability: PokemonDetailResponse.Ability.AbilityDetail(name: "chlorophyll", url: "https://pokeapi.co/api/v2/ability/34/"))
             ],
             sprites: PokemonDetailResponse.Sprites(
                 front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
